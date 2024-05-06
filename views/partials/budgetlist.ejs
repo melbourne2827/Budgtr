@@ -1,0 +1,94 @@
+<div class="container clearfix">
+    <div class="income">
+        <h2 class="income__title">Income</h2>
+        <div class="income__list">
+            <% let incomeByMonth = {}; %>
+            <% let index = 0; %> <!-- Define index here -->
+            <% for(let entry of entries){ %>
+                <% if(entry.type == 1){ %>
+                    <% const dateParts = entry.fullDate.split('/'); %>
+                    <% const monthIndex = parseInt(dateParts[1]) - 1; %>
+                    <% const month = new Date(2000, monthIndex).toLocaleString('default', { month: 'long' }); %>
+                    <% if(!incomeByMonth[month]) { incomeByMonth[month] = []; } %>
+                    <% incomeByMonth[month].push(entry); %>
+                <% } %>
+            <% } %>
+            
+            <% for(let month in incomeByMonth){ %>
+                <div class="month-income">
+                    <div class="item clearfix" data-bs-toggle="collapse" data-bs-target="#<%= month %>-income-collapse" aria-expanded="false" aria-controls="<%= month %>-income-collapse">
+                        <div class="incdate"><%= month %></div>
+                    </div>
+                    <div class="collapse" id="<%= month %>-income-collapse">
+                        <% for(let incomeEntry of incomeByMonth[month]){ %>
+                            <div class="item clearfix" id="income-<%= index %>"> <!-- Use index here -->
+                                <div class="incdate"><%= incomeEntry.fullDate %>&emsp;&emsp;</div>
+                                <div class="item__description"><%= incomeEntry.description %></div>
+                                <div class="right clearfix">
+                                    <div class="item__value">+<%= incomeEntry.value %></div>
+                                    <form action='/<%= incomeEntry._id %>?_method=delete' method="post" class="item__delete">
+                                        <button class="item__delete--btn"><i class="fa-regular fa-circle-xmark"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% index += 1; %> <!-- Increment index here -->
+                        <% } %>
+                    </div>
+                </div>
+            <% } %>
+            
+        </div>
+    </div>
+
+
+    <div class="expenses">
+        <h2 class="expenses__title">Expenses</h2>
+        <div class="expenses__list">
+            <% let expensesByMonth = {}; %>
+            <% for(let entry of entries){ %>
+                <% if(entry.type == 0){ %>
+                    <% const dateParts = entry.fullDate.split('/'); %>
+                    <% const monthIndex = parseInt(dateParts[1]) - 1; %>
+                    <% const month = new Date(2000, monthIndex).toLocaleString('default', { month: 'long' }); %>
+                    <% if(!expensesByMonth[month]) { expensesByMonth[month] = []; } %>
+                    <% expensesByMonth[month].push(entry); %>
+                <% } %>
+            <% } %>
+            
+            <% for(let month in expensesByMonth){ %>
+    <div class="month-expenses">
+        <div class="item clearfix" data-bs-toggle="collapse" data-bs-target="#<%= month %>-collapse" aria-expanded="false" aria-controls="<%= month %>-collapse">
+            <div class="expdate"><%= month %></div>
+        </div>
+        <div class="collapse" id="<%= month %>-collapse">
+            <% for(let expenseEntry of expensesByMonth[month]){ %>
+                <div class="item clearfix" id="expense-<%= index %>">
+                    <div class="expdate"><%= expenseEntry.fullDate %>&emsp;&emsp;</div>
+                    <div class="item__description"><%= expenseEntry.description %></div>
+                    <div class="right clearfix">
+                        <div class="item__value">-<%= expenseEntry.value %></div>
+                        <form action='/<%= expenseEntry._id %>?_method=delete' method="post" class="item__delete">
+                            <button class="item__delete--btn"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+<% } %>
+
+        </div>
+    </div>
+
+    <script>
+        // Add event listener to toggle collapse on button click
+        var toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+        toggleButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var target = button.getAttribute('data-bs-target');
+                var collapse = document.querySelector(target);
+                collapse.classList.toggle('show');
+            });
+        });
+    </script>
+    

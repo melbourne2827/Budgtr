@@ -1,0 +1,13 @@
+<div class="add">
+    <form action="/" method="post" class="add__container validated-form" novalidate>
+        <select class="add__type" name="entry[type]" required>
+            <option value=true>+</option>
+            <option value=false selected>-</option>
+        </select>
+        <input type="date" class="add__date" placeholder="Add Date" name="entry[date]" required>
+        <!-- <input type="time" class="add__time" name="entry[time]" > -->
+        <input type="text" class="add__description" placeholder="Add description" name="entry[description]" required>
+        <input type="number" class="add__value" placeholder="Value" name="entry[value]" required>
+        <button class="add__btn"><i class="fa-regular fa-circle-check"></i></button>
+    </form>
+</div>

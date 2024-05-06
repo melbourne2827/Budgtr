@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate')%>
+    
+    <link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
+    <div class="top">
+        <div class="budget">
+            <div class="budget__title">
+                <% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %>
+                Available Budget in <span class="budget__title--month"><%= months[new Date().getMonth()] %></span>:
+            </div>
+
+            <div class="budget__value"><%= currentUser.totalBalance  %></div>
+
+            <div class="budget__income clearfix">
+                <div class="budget__income--text">Income</div>
+                <div class="right">
+                    <div class="budget__income--value">+<%=totalIncome %></div>
+                    <!-- <div class="budget__income--percentage">&nbsp;</div> -->
+                </div>
+            </div>
+
+            <div class="budget__expenses clearfix">
+                <div class="budget__expenses--text">Expense</div>
+                <div class="right clearfix">
+                    <div class="budget__expenses--value">-<%= totalExpense %></div>
+                    <!-- <div class="budget__expenses--percentage">0%</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <%-include('../partials/budgetform') %>
+        <%-include('../partials/budgetlist') %>
+    </div>
+    
